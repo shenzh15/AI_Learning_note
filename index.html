@@ -16,18 +16,13 @@
       autoHeader: true,
       subMaxLevel: 3,
       search: 'auto',
+      maxLevel: 4,
+      sidebarDisplayLevel: 1,
       copyCode: {
         buttonText : '复制到剪贴板',
         errorText  : '错误',
         successText: '复制成功'
-      },
-      plugins: [
-        function(hook) {
-          hook.beforeEach(function(html) {
-            return html;
-          });
-        }
-      ]
+      }
     }
   </script>
   <script src="//cdn.jsdelivr.net/npm/docsify/lib/docsify.min.js"></script>
@@ -35,6 +30,8 @@
   <script src="//cdn.jsdelivr.net/npm/docsify-copy-code/dist/docsify-copy-code.min.js"></script>
   <script src="//cdn.jsdelivr.net/npm/prismjs@1/components/prism-python.min.js"></script>
   <script src="//cdn.jsdelivr.net/npm/prismjs@1/components/prism-javascript.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/docsify-katex@latest/dist/docsify-katex.js"></script>
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/katex@latest/dist/katex.min.css"/>
 </body>
 </html>
 

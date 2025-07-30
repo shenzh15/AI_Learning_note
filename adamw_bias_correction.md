@@ -2,9 +2,7 @@
 
 在 Adam 和 AdamW 优化器中，更新参数时常常出现如下形式的修正项：
 
-```math
-\alpha_t = \alpha \cdot \frac{\sqrt{1 - \beta_2^t}}{1 - \beta_1^t}
-```
+$$\alpha_t = \alpha \cdot \frac{\sqrt{1 - \beta_2^t}}{1 - \beta_1^t}$$
 
 这一项称为 **偏差修正项（bias correction term）**，是为了纠正在训练初期由于动量初始为 0 所带来的偏差。
 
@@ -14,8 +12,7 @@
 
 下面是标准的 AdamW 参数更新公式（来自论文）：
 
-```math
-\begin{aligned}
+$$\begin{aligned}
 &\text{初始化：} \\
 &\quad \theta_0 \leftarrow \text{初始参数} \\
 &\quad m_0 \leftarrow 0 \quad (\text{一阶动量}) \\
@@ -28,8 +25,7 @@
 &\quad \hat{\alpha}_t = \alpha \cdot \frac{\sqrt{1 - \beta_2^t}}{1 - \beta_1^t} \quad \text{(学习率修正)} \\
 &\quad \theta_t \leftarrow \theta_{t-1} - \hat{\alpha}_t \cdot \frac{m_t}{\sqrt{v_t} + \epsilon} \quad \text{(梯度更新)} \\
 &\quad \theta_t \leftarrow \theta_t - \alpha \lambda \theta_t \quad \text{(权重衰减）}
-\end{aligned}
-```
+\end{aligned}$$
 
 ---
 
@@ -37,26 +33,20 @@
 
 Adam 的一阶和二阶动量都是用指数滑动平均（EMA）计算的：
 
-```math
-m_t = \beta_1 \cdot m_{t-1} + (1 - \beta_1) \cdot g_t \\
-v_t = \beta_2 \cdot v_{t-1} + (1 - \beta_2) \cdot g_t^2
-```
+$$m_t = \beta_1 \cdot m_{t-1} + (1 - \beta_1) \cdot g_t$$
+$$v_t = \beta_2 \cdot v_{t-1} + (1 - \beta_2) \cdot g_t^2$$
 
 由于初始时 \(m_0 = 0\)，所以初期的 \(m_t\) 和 \(v_t\) 会偏小。
 
 你可以数学推导得到：
 
-```math
-\mathbb{E}[m_t] \approx (1 - \beta_1^t) \cdot \text{true\_mean} \\
-\mathbb{E}[v_t] \approx (1 - \beta_2^t) \cdot \text{true\_var}
-```
+$$\mathbb{E}[m_t] \approx (1 - \beta_1^t) \cdot \text{true\_mean}$$
+$$\mathbb{E}[v_t] \approx (1 - \beta_2^t) \cdot \text{true\_var}$$
 
 所以我们需要修正：
 
-```math
-\hat{m}_t = \frac{m_t}{1 - \beta_1^t} \\
-\hat{v}_t = \frac{v_t}{1 - \beta_2^t}
-```
+$$\hat{m}_t = \frac{m_t}{1 - \beta_1^t}$$
+$$\hat{v}_t = \frac{v_t}{1 - \beta_2^t}$$
 
 这就是所谓的 bias correction。避免 early steps 更新太小，训练进展缓慢。
 
@@ -66,15 +56,11 @@ v_t = \beta_2 \cdot v_{t-1} + (1 - \beta_2) \cdot g_t^2
 
 以一阶动量为例：
 
-```math
-m_t = \beta_1 \cdot m_{t-1} + (1 - \beta_1) \cdot g_t
-```
+$$m_t = \beta_1 \cdot m_{t-1} + (1 - \beta_1) \cdot g_t$$
 
 我们展开几步可以得到：
 
-```math
-m_t = (1 - \beta_1) \cdot \left(g_t + \beta_1 g_{t-1} + \beta_1^2 g_{t-2} + \cdots + \beta_1^{t-1} g_1\right)
-```
+$$m_t = (1 - \beta_1) \cdot \left(g_t + \beta_1 g_{t-1} + \beta_1^2 g_{t-2} + \cdots + \beta_1^{t-1} g_1\right)$$
 
 可以看出每个历史梯度 \(g_{t-k}\) 的权重是 \(\beta_1^k\)，也就是**指数衰减**。越早的梯度，权重越小，呈现指数下降。这种结构让：
 
@@ -88,9 +74,7 @@ m_t = (1 - \beta_1) \cdot \left(g_t + \beta_1 g_{t-1} + \beta_1^2 g_{t-2} + \cdo
 
 为了方便，很多实现（包括 PyTorch）直接把这个 bias correction 融合到学习率里：
 
-```math
-\alpha_t = \alpha \cdot \frac{\sqrt{1 - \beta_2^t}}{1 - \beta_1^t}
-```
+$$\alpha_t = \alpha \cdot \frac{\sqrt{1 - \beta_2^t}}{1 - \beta_1^t}$$
 
 这样就不用手动除以：
 
@@ -108,9 +92,7 @@ m_t = (1 - \beta_1) \cdot \left(g_t + \beta_1 g_{t-1} + \beta_1^2 g_{t-2} + \cdo
 - 由于动量初始化为 0，前几步的估计会偏小。
 - 所以用如下修正因子：
 
-```math
-1 - \beta_1^t, \quad 1 - \beta_2^t
-```
+$$1 - \beta_1^t, \quad 1 - \beta_2^t$$
 
 - 这就是 bias correction。
 - 在代码中常把它融合进学习率 \(\alpha_t\)。
