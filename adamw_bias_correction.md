@@ -80,12 +80,11 @@ $$\alpha_t = \alpha \cdot \frac{\sqrt{1 - \beta_2^t}}{1 - \beta_1^t}$$
 
 ---
 
-## 五、总结
+## 四、总结
 
 - Adam 和 AdamW 使用动量估计 $m, v$ 来加速收敛。
 - 由于动量初始化为 0，前几步的估计会偏小。
-- 所以用如下修正因子：$1 - \beta_1^t, \quad 1 - \beta_2^t$
-- 这就是 bias correction。
+- 所以用如下修正因子：$1 - \beta_1^t, \quad 1 - \beta_2^t$ 这就是 bias correction。
 - 在代码中常把它融合进学习率 $\alpha_t$。
 - EMA 是指数加权的滑动平均，因此具有良好平滑性。
 
