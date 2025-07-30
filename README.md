@@ -6,16 +6,5 @@
 
 ## 📚 内容分类
 
-### 机器学习基础
 - [深度学习调参经验](hyperparameter_tuning.md) - 关于学习率、Batch Size和Adam参数的实用技巧
-
-### 机器学习优化器
 - [AdamW偏差修正详解](adamw_bias_correction.md) - 深入理解AdamW优化器中的bias correction机制
-
-## 🚀 如何使用
-
-使用左侧导航栏浏览不同的主题内容，每个文档都包含详细的理论解释和代码示例。
-
-## 📝 更新日志
-
-- 初始版本：添加AdamW优化器相关内容
