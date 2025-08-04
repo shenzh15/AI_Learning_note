@@ -14,6 +14,10 @@
 
 - [AdamW偏差修正详解](adamw_bias_correction.md) - 深入理解AdamW优化器中的bias correction机制
 
+### 机器学习系统
+
+- [MPI并行计算](system/mpi_parallel_computing.md) - MPI基础概念和在机器学习中的应用
+
 ### 奇奇怪怪的BUG们
 
 - [python生成器行为让我的梯度裁剪失效](gradient_clipping_bug_story.md) - 一个关于生成器和梯度裁剪的调试故事
